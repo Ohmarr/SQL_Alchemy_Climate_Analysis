@@ -75,29 +75,28 @@ def precipitation():
 @app.route("/api/v1.0/stations")
 def stations(): 
     """Return a JSON list of stations from the dataset"""
+    all_stations = session.query(Station.station).all()
+    return jsonify(all_stations)
+
+
+@app.route("/api/v1.0/tobs")
+def total_observation():
+    """Return a JSON list of stations from the dataset"""
     active_stations = session.query(Station.station, func.count(Measurement.station).label('actives')).\
                   filter(Station.station == Measurement.station).\
                   group_by(Station.station).\
                   order_by(func.count(Measurement.station).desc()).\
                   all()
     return jsonify(active_stations)
-
-
-@app.route("/api/v1.0/tobs")
-def total_observation():
-#     """Return a list of all passenger names"""
-#     # Query all passengers
-#     results = session.query(Passenger.name).all()
-#     # Convert list of tuples into normal list
-#     all_names = list(np.ravel(results))
-#     return jsonify(all_names)
-        return()
-@app.route("/api/v1.0/<start>")
+@app.route("/api/v1.0/<start>/")
 def start():
-        return()
+    """Return a JSON list of the minimum temperature, the average temperature, and the max temperature for a given start or start-end range.
+       When given the start only, calculate `TMIN`, `TAVG`, and `TMAX` for all dates greater than and equal to the start date.
+       When given the start and the end date, calculate the `TMIN`, `TAVG`, and `TMAX` for dates between the start and end date inclusive."""
+    return()
 @app.route("/api/v1.0/<start>/<end>")
 def startend():
-        return()
+    return()
 
 
 
